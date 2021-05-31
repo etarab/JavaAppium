@@ -1,5 +1,6 @@
 package lib.ui;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class NavigationUI extends MainPageObject{
@@ -13,12 +14,14 @@ abstract public class NavigationUI extends MainPageObject{
     public NavigationUI(RemoteWebDriver driver) {
         super(driver);
     }
+    @Step("Переход к авторизации через главное меню")
     public void goToAuthFromMainMenu(){
         this.openMainMenuOnMW();
-        this.tryClickElementwithFewAttempts(AUTH_BTN,
+        this.tryClickElementWithFewAttempts(AUTH_BTN,
                 "cannot click auth button",
                 20);
     }
+    @Step("Добавление в список чтения")
     public void addingToReadingList(){
         this.waitForElementPresent(ADD_TO_READING_LIST_BTN,
                 "Can't find save article button",
@@ -26,6 +29,7 @@ abstract public class NavigationUI extends MainPageObject{
         this.waitForElementAndClick(ADD_TO_READING_LIST_BTN,
                 "Can't click save article button",5);
     }
+    @Step("Удаление из списка чтения")
     public void deletingArticleFromRL(){
         if (this.isElementPresent(DELETE_FROM_READING_LIST_BTN)) {
             this.waitForElementPresent(DELETE_FROM_READING_LIST_BTN,
@@ -39,6 +43,7 @@ abstract public class NavigationUI extends MainPageObject{
                 "Cannot find add to RL button after removing article from RL",
                 2);
     }
+    @Step("Открытие главного меню")
     public void openMainMenuOnMW(){
         this.waitForElementPresent(MAIN_MENU_BTN,
                 "cannot find main menu button",
@@ -47,11 +52,12 @@ abstract public class NavigationUI extends MainPageObject{
                 "cannot click main menu button",
                 5);
     }
+    @Step("Переход к списку чтения")
     public void goToSavedArticlesPage(){
         this.waitForElementPresent(READING_LIST_PAGE_BTN,
                 "Can't find way to saved articles",
                 10);
-        this.tryClickElementwithFewAttempts(READING_LIST_PAGE_BTN,
+        this.tryClickElementWithFewAttempts(READING_LIST_PAGE_BTN,
                 "Can't find way to saved articles (CLICK)",
                 5);
     }

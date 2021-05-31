@@ -1,5 +1,6 @@
 package lib.ui;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class AuthorizationPageObject extends MainPageObject{
@@ -13,6 +14,7 @@ abstract public class AuthorizationPageObject extends MainPageObject{
         super(driver);
     }
 
+    @Step("Авторизация в вэб версии")
     public void authToWiki(String log_in,String password){
         this.waitForElementPresent(LOG_IN_INPUT,
                 "Cannot find field for log in input",

@@ -1,5 +1,6 @@
 package lib.ui;
 
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -17,7 +18,7 @@ abstract public class MyListsPageObject extends MainPageObject{
     public MyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
-
+    @Step("Переход к, созданному по умолчанию, списку статей")
     public void goToDefaultReadingList(){
         this.waitForElementPresent(DEFAULT_READING_LIST,
                 "Can't find expected reading list",
@@ -28,6 +29,7 @@ abstract public class MyListsPageObject extends MainPageObject{
     private String getArticleTitleElement(String articleTitle){
         return ARTICLE_TITLE_ON_RL.replace("{TITLE}",articleTitle);
     }
+    @Step("Удаление статьи '{articleTitle}' из списка сохраненных")
     public void deleteElementFromReadingList(String articleTitle){
         if(!Platform.getInstance().isMW()){
             this.swipeElementLeft(getArticleTitleElement(articleTitle),
@@ -52,6 +54,7 @@ abstract public class MyListsPageObject extends MainPageObject{
     private String getTitleOnReadingList(String searchlang){
         return ARTICLE_TITLE_ITEM.replace("{SEARCHLANG}",searchlang);
     }
+    @Step("Подсчет количества результатов поиска на экране")
     public int countSearchResultsOnScreen(String searchlang){
         this.waitForElementPresent(getTitleOnReadingList(searchlang),
                 "Can't find some search results",
@@ -62,6 +65,7 @@ abstract public class MyListsPageObject extends MainPageObject{
         String number = Integer.toString(number_of_title);
         return ARTICLE_TITLE_OOM_TPL.replace("{NUMBER}",number);
     }
+    @Step("Получение заголовка статьи")
     public String getArticleTitleString(int number_of_title){
         WebElement title_element = this.waitForElementPresent(getTitleItemFromList(number_of_title),
                 "Can't find title element for compare strings",
@@ -74,7 +78,7 @@ abstract public class MyListsPageObject extends MainPageObject{
             return title_element.getAttribute("title");
         }
     }
-
+    @Step("Получение краткого описания статьи")
     public String getLangArticleDescription(int number_of_title){
         if(Platform.getInstance().isIOS()) {
             WebElement titleElement = this.waitForElementPresent(getTitleItemFromList(number_of_title) + "/following-sibling::XCUIElementTypeStaticText",
@@ -88,7 +92,7 @@ abstract public class MyListsPageObject extends MainPageObject{
             return titleElement.getAttribute("text");
         }
     }
-
+    @Step("Закрытие всплывающего окна синхронизации списков чтения (только для IOS)")
     public void closeRLSyncPopup(){
         waitForElementAndClick(CLOSE_SYNC_POPUP,
                 "PopUp was not show on screen",

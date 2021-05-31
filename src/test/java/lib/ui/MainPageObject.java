@@ -4,16 +4,19 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
+import io.qameta.allure.Attachment;
 import lib.Platform;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.regex.Pattern;
 
@@ -131,6 +134,7 @@ public class MainPageObject {
             System.out.println("Method swipeElementLeft() does nothing for platform " + Platform.getInstance().getPlatformVar());
         }
     }
+
     public void scrollWebPage(){
         if(Platform.getInstance().isMW()){
             JavascriptExecutor JSExecutor = (JavascriptExecutor) driver;
@@ -170,7 +174,7 @@ public class MainPageObject {
         }
     }
 
-    public void tryClickElementwithFewAttempts(String locator, String error_message, int amount_of_attempts){
+    public void tryClickElementWithFewAttempts(String locator, String error_message, int amount_of_attempts){
         int current_attempts = 0;
         boolean need_more_attempts = true;
 
@@ -185,6 +189,29 @@ public class MainPageObject {
             }
             ++ current_attempts;
         }
+    }
+    public String takeScreenshot(String name){
+        TakesScreenshot ts = (TakesScreenshot)this.driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        String path = System.getProperty("user.dir") + "/" + name + "_screenshot.png";
+        try {
+            FileUtils.copyFile(source, new File(path));
+            System.out.println("The screenshot was taken" + path);
+        } catch (Exception e){
+            System.out.println("Cannot take screenshot. Error: " + e.getMessage());
+        }
+        return path;
+    }
+    @Attachment
+    public static byte[] screenshot(String path){
+        byte[] bytes = new byte[0];
+
+        try {
+            bytes = Files.readAllBytes(Paths.get(path));
+        } catch (IOException e){
+            System.out.println("Cannot get bytes from screenshot. Error: " + e.getMessage());
+        }
+        return bytes;
     }
 }
 

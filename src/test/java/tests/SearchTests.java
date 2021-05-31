@@ -1,6 +1,6 @@
 package tests;
 
-import io.qameta.allure.Description;
+import io.qameta.allure.*;
 import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
@@ -11,8 +11,14 @@ import lib.ui.factories.WelcomePageObjectFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Epic("Search tests")
 public class SearchTests extends CoreTestCase {
     @Test
+    @DisplayName("Тест проверка текста плейсхолдера")
+    @Description("Тап в строку поиска и сравнение плейсхолдера с ожидаемым текстом")
+    @Step("Start testCompareText")
+    @Feature(value = "Search line")
+    @Severity(value = SeverityLevel.MINOR)
     public void testCompareText(){
 
 
@@ -26,8 +32,11 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
-    @DisplayName("Проврка очистки поиска")
+    @DisplayName("Тест проверка очистки поиска")
     @Description("Ввод текста в строку поиска и очистка строки поиска")
+    @Step("Start testClearSearch")
+    @Feature(value = "Search line")
+    @Severity(value = SeverityLevel.MINOR)
     public void testClearSearch(){
         String searchWord = "Appium";
 
@@ -44,8 +53,11 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
-    @DisplayName("Проверка результатов поиска")
+    @DisplayName("Тест проверка результатов поиска")
     @Description("Проверка результатов поиска по сравнению заголовков")
+    @Step("Start testCheckSearchResultsTitles")
+    @Features(value = {@Feature(value = "Search line"),@Feature(value = "Search")})
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testCheckSearchResultsTitles(){
         String searchWord = "java";
         if(!Platform.getInstance().isMW()){
@@ -63,6 +75,11 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    @DisplayName("Тест проверка поиска")
+    @Description("Проверка функционала поиска")
+    @Step("Start testSearch")
+    @Feature(value = "Search")
+    @Severity(value = SeverityLevel.BLOCKER)
     public void testSearch(){
         String searchWord = "Java";
         if(!Platform.getInstance().isMW()){
@@ -75,6 +92,11 @@ public class SearchTests extends CoreTestCase {
         SearchPageObject.waitForSearchResult("Java (programming language)");
     }
     @Test
+    @DisplayName("Тест проверка поиска по заголовку и описанию")
+    @Description("Сравнение результатов поиска с учетом заголовков и описаний")
+    @Step("Start testSearchByTitleAndDescription")
+    @Features(value = {@Feature(value = "Search results"),@Feature(value = "Search")})
+    @Severity(value = SeverityLevel.CRITICAL)
     public void testSearchByTitleAndDescription(){
         String searchWord = "Java";
         if(!Platform.getInstance().isMW()){

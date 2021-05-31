@@ -1,6 +1,7 @@
     package lib;
 
     import io.appium.java_client.AppiumDriver;
+    import io.qameta.allure.Step;
     import junit.framework.TestCase;
     import org.junit.After;
     import org.junit.Before;
@@ -19,6 +20,7 @@
 
 
         @Before
+        @Step("Старт драйвера и сессии")
         public void setUp() throws Exception {
             driver = Platform.getInstance().getDriver();
             this.createAllurePropertyFile();
@@ -27,6 +29,7 @@
         }
 
         @After
+        @Step("Остановка драйвера и сессии")
         public void tearDown() throws Exception {
             driver.quit();
         }
